@@ -1,8 +1,13 @@
 package com.devsuperior.dsdeliver.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.devsuperior.dsdeliver.entities.Product;
+
+import static java.util.stream.Collectors.toList;
 
 public class ProductDTO implements Serializable {
 
@@ -31,6 +36,20 @@ public class ProductDTO implements Serializable {
         price = entity.getPrice();
         description = entity.getDescription();
         imageUri = entity.getImageUri();
+    }
+
+    public static List<ProductDTO> fromAll(List<Product> list) {
+        if (list == null){
+            list = new ArrayList<>();
+        }
+
+        if (!list.isEmpty()){
+            return list.stream()
+                    .map(ProductDTO::new)
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<ProductDTO>();
+        }
     }
 
     public Long getId() {
