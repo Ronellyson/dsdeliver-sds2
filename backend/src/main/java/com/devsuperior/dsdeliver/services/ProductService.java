@@ -89,17 +89,6 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
-    // Método para excluir um produto por ID
-    @Transactional
-    public void delete(Long id) {
-        // Verificar se o produto com o ID especificado existe
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Produto com o ID " + id + " não encontrado."));
-
-        // Excluir o produto do banco de dados
-        productRepository.delete(product);
-    }
-
     // Exceção para nome do produto ausente
     class MissingProductNameException extends RuntimeException {
         public MissingProductNameException(String message) {

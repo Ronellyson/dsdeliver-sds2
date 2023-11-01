@@ -125,34 +125,4 @@ public class ProductServiceTest {
         verify(productRepository, times(1)).findById(1L);
         verify(productRepository, times(0)).save(any(Product.class));
     }
-
-    @Test
-    public void testDeleteProductById() {
-        // Arrange
-        Long productId = 1L;
-        Product product = new Product();
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-
-        // Act
-        productService.delete(productId);
-
-        // Assert
-        verify(productRepository, times(1)).findById(productId);
-        verify(productRepository, times(1)).delete(product);
-    }
-
-    @Test
-    public void testDeleteNonExistingProductById() {
-        // Arrange
-        Long productId = 1L;
-        when(productRepository.findById(productId)).thenReturn(Optional.empty());
-
-        // Act and Assert
-        assertThrows(ProductService.ProductNotFoundException.class, () -> productService.delete(productId));
-
-        // Verificar se o método findById foi chamado com o ID especificado
-        verify(productRepository, times(1)).findById(productId);
-        // Verificar se o método delete não foi chamado, já que o produto não existe
-        verify(productRepository, times(0)).delete(any(Product.class));
-    }
 }
