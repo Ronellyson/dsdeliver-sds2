@@ -19,12 +19,14 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    // Método para encontrar todos os produtos ordenados por nome
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll() {
         List<Product> list = productRepository.findAllByOrderByNameAsc();
         return ProductDTO.fromAll(list);
     }
 
+    // Método para encontrar produtos por nome (insensível a maiúsculas/minúsculas)
     @Transactional(readOnly = true)
     public List<ProductDTO> findByName(String name) {
         // Verificar se o nome do produto é fornecido
@@ -32,6 +34,7 @@ public class ProductService {
             throw new MissingProductNameException("Nome do produto não pode estar vazio ou nulo.");
         }
 
+        // Encontrar produtos por nome e ordenar por nome
         List<Product> list = productRepository.findByNameContainingIgnoreCaseOrderByNameAsc(name);
         if (list.isEmpty()) {
             throw new ProductNotFoundException("Nenhum produto encontrado com o nome: " + name);
@@ -43,7 +46,7 @@ public class ProductService {
     @Transactional
     public ProductDTO create(ProductDTO dto) {
         // Verificar se os campos obrigatórios estão presentes no DTO
-        if (dto.getName() == null) {
+        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
             throw new MissingProductNameException("Nome do produto é obrigatório.");
         }
 
@@ -64,35 +67,34 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
+    // Método para atualizar um produto existente
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         // Verificar se o produto com o ID especificado existe
         Optional<Product> existingProduct = productRepository.findById(id);
 
-        // Verificar se um produto com o mesmo nome já existe no banco de dados
-        if (productRepository.existsByName(dto.getName()) && !existingProduct.isPresent()) {
-            throw new ProductAlreadyExistsException("Produto com o nome " + dto.getName() + " já existe.");
-        }
-
         // Verificar se o produto com o ID especificado foi encontrado
         Product product = existingProduct.orElseThrow(() -> new ProductNotFoundException("Produto com o ID " + id + " não encontrado."));
 
-        // Atualizar os campos do produto
+        // Atualizar os campos do produto com base no DTO fornecido
         product.setName(dto.getName());
         product.setPrice(dto.getPrice());
         product.setDescription(dto.getDescription());
         product.setImageUri(dto.getImageUri());
 
+        // Salvar o produto atualizado no banco de dados
         product = productRepository.save(product);
         return new ProductDTO(product);
     }
 
+    // Método para excluir um produto por ID
     @Transactional
     public void delete(Long id) {
         // Verificar se o produto com o ID especificado existe
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Produto com o ID " + id + " não encontrado."));
 
+        // Excluir o produto do banco de dados
         productRepository.delete(product);
     }
 

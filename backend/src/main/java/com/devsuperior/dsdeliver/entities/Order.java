@@ -40,8 +40,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, String address, Double latitude, Double longitude, Instant moment, OrderStatus status) {
-        this.id = id;
+    public Order(String address, Double latitude, Double longitude, Instant moment, OrderStatus status) {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;

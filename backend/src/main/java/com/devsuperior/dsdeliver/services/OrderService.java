@@ -60,7 +60,7 @@ public class OrderService {
             throw new MissingProductIdException("Lista de produtos é obrigatória.");
         }
 
-        Order order = new Order(null, dto.getAddress(), dto.getLatitude(), dto.getLongitude(),
+        Order order = new Order(dto.getAddress(), dto.getLatitude(), dto.getLongitude(),
                 Instant.now(), dto.getStatus());
 
         for (ProductDTO p : dto.getProducts()) {
@@ -111,7 +111,7 @@ public class OrderService {
     }
 
     // Exceção para ID do produto ausente
-    class MissingProductIdException extends RuntimeException {
+     class MissingProductIdException extends RuntimeException {
         public MissingProductIdException(String message) {
             super(message);
         }
