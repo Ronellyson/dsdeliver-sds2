@@ -6,10 +6,9 @@ import com.devsuperior.dsdeliver.dto.ProductDTO;
 import com.devsuperior.dsdeliver.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -21,5 +20,23 @@ public class ProductController {
     public ResponseEntity<List<ProductDTO>> findAll(){
         List<ProductDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
-    } 
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO dto) {
+        ProductDTO createdProduct = service.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+        ProductDTO updatedProduct = service.update(id, dto);
+        return ResponseEntity.ok().body(updatedProduct);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
