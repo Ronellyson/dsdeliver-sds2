@@ -39,6 +39,7 @@ public class OrderDTO implements Serializable {
     }
 
     public OrderDTO(Order entity) {
+        id = entity.getId();
         address = entity.getAddress();
         latitude = entity.getLatitude();
         longitude = entity.getLongitude();
