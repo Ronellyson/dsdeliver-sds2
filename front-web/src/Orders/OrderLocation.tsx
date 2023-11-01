@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import AsyncSelect from 'react-select/async';
-import { fetchLocalMapBox } from '../api';
 import { OrderLocationData } from './types';
 
 const initialPosition = {
@@ -27,21 +26,54 @@ function OrderLocation({ onChangeLocation }: Props) {
         position: initialPosition
     });
 
-    const loadOptions = async (inputValue: string, callback: (places: Place[]) => void) => {
-        const response = await fetchLocalMapBox(inputValue);
+     const loadOptions = (inputValue: string, callback: (places: Place[]) => void) => {
+        // const response = await fetchLocalMapBox(inputValue);
+        // const places = response.data.features.map((item: any) => {
+        //     return ({
+        //         label: item.place_name,
+        //         value: item.place_name,
+        //         position: {
+        //             lat: item.center[1],
+        //             lng: item.center[0]
+        //         }
+        //     });
+        // });
+        const places = [
+          {
+              label: "Rio Tinto, Porto, Portugal",
+              value: "Rio Tinto, Porto, Portugal",
+              position: {
+                  lat: 41.180717,
+                  lng: -8.557569
+              }
+          },
+          {
+              label: "Rio Tinto, Paraíba, Brazil",
+              value: "Rio Tinto, Paraíba, Brazil",
+              position: {
+                  lat: -6.803828,
+                  lng: -35.077569
+              }
+          },
+          {
+              label: "Rio Tinto, St. Georges Terrace, Perth, Western Australia 6000, Australia",
+              value: "Rio Tinto, St. Georges Terrace, Perth, Western Australia 6000, Australia",
+              position: {
+                  lat: -31.954183,
+                  lng: 115.855906
+              }
+          },
+          {
+              label: "Calle Riotinto, 41928 Palomares del Río, Seville, Spain",
+              value: "Calle Riotinto, 41928 Palomares del Río, Seville, Spain",
+              position: {
+                  lat: 37.3226260205204,
+                  lng: -6.0711255202545
+              }
+          }
+      ];
 
-        const places = response.data.features.map((item: any) => {
-            return ({
-                label: item.place_name,
-                value: item.place_name,
-                position: {
-                    lat: item.center[1],
-                    lng: item.center[0]
-                }
-            });
-        });
-
-        callback(places);
+      callback(places);
     };
 
     const handleChangeSelect = (place: Place) => {

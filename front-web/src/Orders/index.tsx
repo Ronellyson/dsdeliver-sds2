@@ -43,7 +43,8 @@ function Orders() {
         const productsIds = selectedProducts.map(({ id }) => ({ id }));
         const payload = {
             ...orderLocation!,
-            products: productsIds
+            products: productsIds,
+            status:"PENDING"
         }
 
         saveOrder(payload).then((response) => {
