@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.devsuperior.dsdeliver.entities.Order;
 import com.devsuperior.dsdeliver.entities.OrderStatus;
+import com.devsuperior.dsdeliver.entities.Product;
 
 public class OrderDTO implements Serializable {
 
@@ -38,7 +39,6 @@ public class OrderDTO implements Serializable {
     }
 
     public OrderDTO(Order entity) {
-        id = entity.getId();
         address = entity.getAddress();
         latitude = entity.getLatitude();
         longitude = entity.getLongitude();
@@ -106,5 +106,9 @@ public class OrderDTO implements Serializable {
 
     public List<ProductDTO> getProducts() {
         return products;
+    }
+
+    public void setProducts(List<ProductDTO> products) {
+        this.products = products;
     }
 }

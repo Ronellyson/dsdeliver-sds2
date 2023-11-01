@@ -1,5 +1,7 @@
 package com.devsuperior.dsdeliver.entities;
 
+import com.devsuperior.dsdeliver.dto.OrderDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -38,13 +40,20 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, String address, Double latitude, Double longitude, Instant moment, OrderStatus status) {
-        this.id = id;
+    public Order(String address, Double latitude, Double longitude, Instant moment, OrderStatus status) {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.moment = moment;
         this.status = status;
+    }
+
+    public Order(OrderDTO orderDTO) {
+        this.address = orderDTO.getAddress();
+        this.latitude = orderDTO.getLatitude();
+        this.longitude = orderDTO.getLongitude();
+        this.moment = orderDTO.getMoment();
+        this.status = orderDTO.getStatus();
     }
 
     public Long getId() {

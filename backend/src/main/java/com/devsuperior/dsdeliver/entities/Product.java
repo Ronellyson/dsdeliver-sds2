@@ -1,5 +1,7 @@
 package com.devsuperior.dsdeliver.entities;
 
+import com.devsuperior.dsdeliver.dto.ProductDTO;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -26,13 +28,19 @@ public class Product implements Serializable {
     public Product(){
     }
 
-    public Product(Long id, String name, Double price, String description, String imageUri){
+    public Product(String name, Double price, String description, String imageUri){
         super();
-        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.imageUri = imageUri;
+    }
+
+    public Product(ProductDTO productDTO){
+        this.name = productDTO.getName();
+        this.price = productDTO.getPrice();
+        this.description = productDTO.getDescription();
+        this.imageUri = productDTO.getImageUri();
     }
 
     public Long getId() {
