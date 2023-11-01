@@ -52,8 +52,8 @@ public class ProductService {
             throw new MissingProductNameException("Nome do produto é obrigatório.");
         }
 
-        if (dto.getPrice() == null) {
-            throw new MissingProductPriceException("Preço do produto é obrigatório.");
+        if (dto.getPrice() == null || dto.getPrice() < 0) {
+            throw new MissingProductPriceException("Preço do produto é obrigatório e deve ser maior que zero.");
         }
 
         // Verificar se um produto com o mesmo nome já existe no banco de dados
@@ -90,14 +90,14 @@ public class ProductService {
     }
 
     // Exceção para nome do produto ausente
-    class MissingProductNameException extends RuntimeException {
+    public class MissingProductNameException extends RuntimeException {
         public MissingProductNameException(String message) {
             super(message);
         }
     }
 
     // Exceção para preço do produto ausente
-    class MissingProductPriceException extends RuntimeException {
+    public class MissingProductPriceException extends RuntimeException {
         public MissingProductPriceException(String message) {
             super(message);
         }
@@ -111,7 +111,7 @@ public class ProductService {
     }
 
     // Exceção para produto com mesmo nome já existente
-    static class ProductAlreadyExistsException extends RuntimeException {
+    public static class ProductAlreadyExistsException extends RuntimeException {
         public ProductAlreadyExistsException(String message) {
             super(message);
         }
