@@ -31,11 +31,19 @@ public class ProductDTO implements Serializable {
     }
 
     public ProductDTO(Product entity) {
-        id = entity.getId();
-        name = entity.getName();
-        price = entity.getPrice();
-        description = entity.getDescription();
-        imageUri = entity.getImageUri();
+        if (entity != null) {
+            this.id = entity.getId();
+            this.name = entity.getName();
+            this.price = entity.getPrice();
+            this.description = entity.getDescription();
+            this.imageUri = entity.getImageUri();
+        } else {
+            this.id = null;
+            this.name = "Produto Não Disponível";
+            this.price = 0.0;
+            this.description = "Descrição Não Disponível";
+            this.imageUri = "URI Não Disponível";
+        }
     }
 
     public static List<ProductDTO> fromAll(List<Product> list) {
